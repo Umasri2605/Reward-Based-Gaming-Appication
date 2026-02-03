@@ -1,10 +1,12 @@
-import express from "express";
-import { isUser } from "../middlewares/Role";
-import { getQuiz, submitQuiz } from "./quizController";
-import {verifyToken} from "../middlewares/Auth"
+
+const express = require("express");
+const auth = require("../middlewares/auth");
+const { isUser } = require("../middlewares/role");
+const { getQuiz, submitQuiz } = require("./quizController");
 const router = express.Router();
 
-router.get("/:tech", verifyToken, isUser, getQuiz);
-router.post("/submit", verifyToken, isUser, submitQuiz);
+router.get("/:tech", auth, isUser, getQuiz);
+router.post("/submit", auth, isUser, submitQuiz);
 
-export default router;
+module.exports = router;
+

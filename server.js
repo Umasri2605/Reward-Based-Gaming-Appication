@@ -2,7 +2,11 @@ const express=require("express");
 const dotenv=require("dotenv")
 const connectDB=require("./config/db")
 const cors=require("cors");
-const userRoutes=require("./user/userRoutes")
+const userRoutes=require("./user/userRoutes");
+const quizRoutes=require("./quiz/quizRoutes");
+const resultRoutes=require("./result/resultRoutes");
+
+
 dotenv.config();
 connectDB();
 const app=express();
@@ -14,6 +18,8 @@ app.get("/",function(req,res){
 })
 
 app.use("/user",userRoutes);
+app.use("/quiz",quizRoutes);
+app.use("/result",resultRoutes);
 
 const PORT=process.env.PORT || 3500;
 app.listen(PORT,()=>{

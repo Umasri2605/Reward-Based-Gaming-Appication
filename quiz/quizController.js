@@ -1,20 +1,19 @@
+const quizModel = require("../quiz/quizModel");
+const userModel = require("../user/userModel");
+const resultModel= require("../result/resultModel");
 
-const quizModel=require("./quizModel");
-const userModel=require("../user/userModel");
-
-
-export const getQuiz = async (req, res) => {
+exports.getQuiz = async (req, res) => {
   const quiz = await quizModel.findOne({ technology: req.params.tech });
   res.json(quiz.questions);
 };
 
-export const submitQuiz = async (req, res) => {
+exports.submitQuiz = async (req, res) => {
   const { correct, total, technology } = req.body;
   const percentage = (correct / total) * 100;
 
   const user = await userModel.findById(req.user.id);
-  let change = 0;
 
+  let change = 0;
   if (percentage < 35) change = -50;
   else if (percentage <= 45) change = 10;
   else if (percentage <= 60) change = 20;
@@ -28,7 +27,7 @@ export const submitQuiz = async (req, res) => {
   user.score = after;
   await user.save();
 
-  await Result.create({
+  await resultModel.create({
     userId: user._id,
     username: user.username,
     technology,
@@ -38,9 +37,5 @@ export const submitQuiz = async (req, res) => {
     scoreAfter: after
   });
 
-  res.json({
-    percentage,
-    scoreChange: change,
-    newScore: after
-  });
+  res.json({ percentage, scoreChange: change, newScore: after });
 };

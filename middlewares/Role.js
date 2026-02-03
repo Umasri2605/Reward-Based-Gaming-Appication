@@ -1,12 +1,12 @@
 
-export const isAdmin = (req, res, next) => {
+exports.isAdmin = (req, res, next) => {
   if (req.user.role !== "admin")
-    return res.status(403).json({ msg: "Admin only" });
+    return res.status(403).json({ message: "Admins only" });
   next();
 };
 
-export const isUser = (req, res, next) => {
+exports.isUser = (req, res, next) => {
   if (req.user.role !== "user")
-    return res.status(403).json({ msg: "Users only" });
+    return res.status(403).json({ message: "Users only" });
   next();
 };
